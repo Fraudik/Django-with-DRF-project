@@ -1,11 +1,29 @@
-from rest_framework import generics
+from rest_framework import generics, mixins
 
 from .models import Product
 from .serializers import ProductSerializer
 
 
-class ProductCreateAPIView(generics.CreateAPIView):
+class ProductMixinView(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView
+):
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    lookup_field = 'title'
+
+    def get(self, request, *args, **kwargs):
+        requested_title = kwargs.get("title")
+        if requested_title is not None:
+            return self.retrieve(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         title = serializer.validated_data.get('title')
@@ -13,11 +31,4 @@ class ProductCreateAPIView(generics.CreateAPIView):
         serializer.save(description=description)
 
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
-    lookup_field = "title"
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-
-product_create_view = ProductCreateAPIView.as_view()
-product_detail_view = ProductDetailAPIView.as_view()
+product_mixin_view = ProductMixinView.as_view()
