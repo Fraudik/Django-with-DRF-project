@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.product_mixin_view),
-    path('<str:title>/', views.product_mixin_view),
+    path('<str:title>/', views.ProductMixinView.as_view(http_method_names=['post'])),
     path('<str:title>/update/', views.product_mixin_view),
     path('<str:title>/delete/', views.product_mixin_view),
 ]
