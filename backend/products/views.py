@@ -16,8 +16,8 @@ class ProductMixinView(
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'title'
-    authentication_classes = [JSONWebTokenAuthentication]
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # authentication_classes = [JSONWebTokenAuthentication]
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, *args, **kwargs):
         requested_title = kwargs.get("title")

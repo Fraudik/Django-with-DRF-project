@@ -26,7 +26,7 @@ schema_view = get_schema_view(
       default_version='v0.01',
    ),
    public=True,
-   permission_classes=[permissions.AllowAny],
+   permission_classes=[permissions.IsAdminUser],
 )
 
 urlpatterns = [
