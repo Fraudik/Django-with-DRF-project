@@ -3,6 +3,7 @@ from rest_framework.reverse import reverse
 from . import validators
 
 from .models import Product
+from users.serializers import UserSerializer
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -15,6 +16,8 @@ class ProductSerializer(serializers.ModelSerializer):
             lookup_field='title'
     )
 
+    owner = UserSerializer(source='user', read_only=True)
+
     class Meta:
         model = Product
         fields = [
@@ -25,8 +28,14 @@ class ProductSerializer(serializers.ModelSerializer):
 
             'url',
             'edit_url',
+
+            'owner',
         ]
 
+    def get_product_user_data(self, obj):
+        return {
+            "username": obj.user.username
+        }
     def get_edit_url(self, obj):
         request = self.context.get('request')
         if request is None:
