@@ -12,3 +12,12 @@ class ProductViewSet(
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'title'
+
+
+class ProductGenericViewSet(
+        mixins.ListModelMixin,
+        mixins.RetrieveModelMixin,
+        viewsets.GenericViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'title'

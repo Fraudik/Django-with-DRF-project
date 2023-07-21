@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,12 +29,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'rest_framework.authtoken',
     'drf_yasg',
-    'rest_framework_jwt',
-    'rest_framework_jwt.blacklist',
 
+    'users',
     'products',
 ]
 
@@ -104,9 +105,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        "rest_framework.authentication.SessionAuthentication",
+        "users.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
 
@@ -135,4 +136,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 GLOBAL_SETTINGS = {
     "COMMISSION_VALUE": 0.15,
+}
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ["Bearer"],
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(seconds=30),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(minutes=1),
 }

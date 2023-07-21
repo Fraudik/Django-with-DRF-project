@@ -7,6 +7,8 @@ from .models import Product
 
 class ProductSerializer(serializers.ModelSerializer):
     title = serializers.CharField(validators=[validators.unique_product_title])
+    body = serializers.CharField(source='description')
+
     edit_url = serializers.SerializerMethodField(read_only=True)
     url = serializers.HyperlinkedIdentityField(
             view_name='product-detail',
@@ -17,7 +19,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             'title',
-            'description',
+            'body',
             'price',
             'price_with_commission',
 
@@ -26,7 +28,7 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
 
     def get_edit_url(self, obj):
-        request = self.context.get('request') # self.request
+        request = self.context.get('request')
         if request is None:
             return None
         return reverse("product-edit", kwargs={"title": obj.title}, request=request)

@@ -1,11 +1,14 @@
 from rest_framework import generics, mixins, permissions, authentication
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from users.mixins import StaffPermissionMixin, UserQuerySetMixin
 
 from .models import Product
 from .serializers import ProductSerializer
 
 
 class ProductMixinView(
+    UserQuerySetMixin,
+    StaffPermissionMixin,
+
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
@@ -32,6 +35,3 @@ class ProductMixinView(
         title = serializer.validated_data.get('title')
         description = serializer.validated_data.get('description') or title
         serializer.save(description=description)
-
-
-product_mixin_view = ProductMixinView.as_view()
