@@ -12,6 +12,7 @@ services:
       - ./.env.dev
     depends_on:
       - db-dev
+      - redis
   db-dev:
     image: postgres:13.0-alpine
     volumes:
@@ -20,6 +21,13 @@ services:
       - POSTGRES_USER=django_app
       - POSTGRES_PASSWORD=django_app
       - POSTGRES_DB=django_app_dev
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - 'redis_data:/data'
 
 volumes:
   postgres_data:
+  redis_data:
