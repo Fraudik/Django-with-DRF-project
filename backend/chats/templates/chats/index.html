@@ -1,25 +1,18 @@
+{% load static %}
 <html>
 <head>
     <meta charset="utf-8"/>
     <title>Список чатов</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 </head>
 <body>
-    В какой чат вы бы хотели войти?<br>
-    <input id="chat-name-input" type="text" size="100"><br>
-    <input id="chat-name-submit" type="button" value="Enter">
+    <div class="container">
+        <h3 class="heading">В какой чат вы бы хотели войти?</h3>
+        <input class="textInput" id="chat-name-input" type="text" size="100"><br>
+        <input class="button" id="chat-name-submit" type="button" value="Ввести название чата">
+    </div>
 
-    <script>
-        document.querySelector('#chat-name-input').focus();
-        document.querySelector('#chat-name-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-name-submit').click();
-            }
-        };
-
-        document.querySelector('#chat-name-submit').onclick = function(e) {
-            let chatName = document.querySelector('#chat-name-input').value;
-            window.location.pathname = '/chat/' + chatName + '/';
-        };
-    </script>
+    <script src="{% static 'index.js' %}"></script>
 </body>
 </html>
