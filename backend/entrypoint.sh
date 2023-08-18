@@ -11,8 +11,9 @@ then
     echo "PostgreSQL started"
 fi
 
-python manage.py flush --no-input
 python manage.py makemigrations
 python manage.py migrate
+
+gunicorn config.wsgi:application --config=/gunicorn_conf.py
 
 exec "$@"

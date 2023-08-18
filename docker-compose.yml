@@ -1,32 +1,44 @@
-version: '3.8'
+version: 'Compose specification'
 
 services:
   web:
-    build: ./backend
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./backend/:/usr/src/backend/
+    build:
+      context: ./backend
+    command: "/entrypoint.sh"
+    restart: always
     ports:
-      - 8000:8000
+      - $WEB_PORT:$WEB_PORT
     env_file:
-      - ./.env.dev
+      - .env
+    environment:
+      - SQL_HOST=db
     depends_on:
-      - db-dev
+      - db
       - redis
-  db-dev:
+
+  db:
     image: postgres:13.0-alpine
+    restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=django_app
-      - POSTGRES_PASSWORD=django_app
-      - POSTGRES_DB=django_app_dev
+    env_file:
+      - .env.db
+
   redis:
     image: redis:latest
     ports:
       - "6379:6379"
     volumes:
       - 'redis_data:/data'
+
+  celery:
+    build:
+      context: ./backend
+    command: "/celery_start.sh"
+    env_file:
+      - .env
+    depends_on:
+      - redis
 
 volumes:
   postgres_data:

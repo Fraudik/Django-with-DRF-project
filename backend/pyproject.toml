@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "Django with DRF shop"
+version = "2.0.0"
+description = ""
+authors = ["Blinov Ilya <ulkhan.2014@mail.ru>"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "4.2.3"
+gunicorn = "20.1.0"
+python-dotenv = "^1.0.0"
+psycopg2 = "^2.9.7"
+whitenoise = "^6.5.0"
+djangorestframework = "3.14.0"
+drf-spectacular = "0.26.3"
+drf-spectacular-sidecar = "2023.7.1"
+djangorestframework-camel-case = "1.4.2"
+django-filter = "23.2"
+celery = "^5.3.1"
+redis = "^5.0.0"
+pyotp = "^2.9.0"
+djangorestframework-simplejwt = "5.2.2"
+channels = "4.0.0"
+daphne = "4.0.0"
+channels-redis = "4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
